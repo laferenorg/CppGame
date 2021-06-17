@@ -31,7 +31,8 @@ CFLAGS         = -Wall -fPIC -fno-inline -finline-functions \
 CINCLUDE       = -I . -I include/ -D _REENTRANT
  
 # Source
-CSOURCES_CPP   := "src/*.cpp"
+CSOURCES_CPP   := $(shell find $(SOURCEDIR) -name '*.cpp')
+CSOURCES_C     := $(shell find $(SOURCEDIR) -name '*.c')
 
 # Output
 COUTPUT_SRC    = obj
@@ -58,6 +59,11 @@ compile_binary:
 
 compile:
 	@for _source_ in $(CSOURCES_CPP); do \
+		printf "\033[0;32mCompile File: [\033[0;33m$$_source_\033[0m\033[0;32m]\033[0m \n"; \
+		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(OPTIMIZE); \
+	done
+
+	@for _source_ in $(CSOURCES_C); do \
 		printf "\033[0;32mCompile File: [\033[0;33m$$_source_\033[0m\033[0;32m]\033[0m \n"; \
 		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(OPTIMIZE); \
 	done
