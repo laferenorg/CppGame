@@ -8,7 +8,7 @@ Coding With Russ](https://www.youtube.com/channel/UCPrRY0S-VzekrJK7I7F4-Mg) )
 - make tools (make)
 
 ## Todo
-put `libSDL2.a` and `libSDL2_image.a` files in `lib/` folder.
+put `libSDL2.a` and `libSDL2_image.a` files in `libs/` folder.
 
 ## Compile
 ```bash
