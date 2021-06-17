@@ -20,13 +20,3 @@ $ make
 ```bash
 $ ./build/bin/SolMan
 ```
-
-### Windows (Command Prompt)
-```bash
-$ build/bin/SolMan
-```
-
-### Windows (Powershell)
-```bash
-$ .\build\bin\SolMan
-```
