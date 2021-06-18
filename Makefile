@@ -41,7 +41,12 @@ COUTPUT_BUILD  = build
 CFINISH_OUTPUT = SolMan
 
 # Main
-all: check_obj compile compile_binary finish
+all: install_deps check_obj compile compile_binary finish
+
+install_deps:
+	@if [ ! -d "libs/libSDL2.a" ]; then \
+		bash install.sh; \
+	fi
 
 check_obj:
 	@if [ ! -d $(COUTPUT_BUILD) ]; then \
