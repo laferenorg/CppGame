@@ -77,19 +77,6 @@ void SolMain::handleEvents(SDL_Event& event) {
 }
 
 void SolMain::update() {
-	{
-		std::vector<Grenade> grenade_group_t;
-		for(int i = 0; i < ((int)grenade_group.size()); i++) {
-			if(!grenade_group[i].delts) {
-				grenade_group[i].update();
-				grenade_group_t.push_back(grenade_group[i]);
-			}
-		}
-		grenade_group.clear();
-		for(int i = 0; i < ((int)grenade_group_t.size()); i++) {
-			grenade_group.push_back(grenade_group_t[i]);
-		}
-	}
 	player->update();
 	switch(command) {
 		case 0: {
@@ -106,6 +93,19 @@ void SolMain::update() {
 }
 
 void SolMain::render(SDL_Renderer* renderer) {
+	{
+		std::vector<Grenade> grenade_group_t;
+		for(int i = 0; i < ((int)grenade_group.size()); i++) {
+			if(!grenade_group[i].delts) {
+				grenade_group[i].update(renderer);
+				grenade_group_t.push_back(grenade_group[i]);
+			}
+		}
+		grenade_group.clear();
+		for(int i = 0; i < ((int)grenade_group_t.size()); i++) {
+			grenade_group.push_back(grenade_group_t[i]);
+		}
+	}
 	if(grenade && (grenade_thrown == false) && (player->grenades > 0)) {
 		Grenade grenade_t(player->DestR.x + (0.5 * player->DestR.w * player->direction), 
 						  player->DestR.y, player->direction, renderer);

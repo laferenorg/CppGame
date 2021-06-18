@@ -9,6 +9,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+/* Header */
+#include <header/Explosion.hpp>
+
 class Grenade {
 public:
 	bool         delts = false;
@@ -19,9 +22,10 @@ public:
     SDL_Rect     DestR;
     int          direction;
     float        height_sc;
+    std::vector<Explosion> explosion_group;
 public:
 	Grenade(int x, int y, int direction, SDL_Renderer* renderer);
-	void update();
+	void update(SDL_Renderer* renderer);
 	void draw(SDL_Renderer* renderer);
 };
 
