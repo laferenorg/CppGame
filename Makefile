@@ -25,8 +25,7 @@ CCOPILER       = g++
 
 # Flags
 COPTIMIZE      = -O2 -g -Ofast -Os -Og
-CFLAGS         = -Wall -fPIC -fno-inline -finline-functions \
-				 libs/libSDL2.a libs/libSDL2_image.a \
+CFLAGS         = libs/libSDL2.a libs/libSDL2_image.a \
 				 -pthread -ldl -lstdc++fs
 CINCLUDE       = -I . -I include/ -D _REENTRANT
  
@@ -60,17 +59,17 @@ check_obj:
 	fi
 
 compile_binary:
-	@$(CCOPILER) *.o $(CFLAGS) $(OPTIMIZE) -o $(COUTPUT_BUILD)/$(COUTPUT_BIN)/$(CFINISH_OUTPUT)
+	@$(CCOPILER) *.o $(CFLAGS) $(COPTIMIZE) -o $(COUTPUT_BUILD)/$(COUTPUT_BIN)/$(CFINISH_OUTPUT)
 
 compile:
 	@for _source_ in $(CSOURCES_CPP); do \
 		printf "\033[0;32mCompile File: [\033[0;33m$$_source_\033[0m\033[0;32m]\033[0m \n"; \
-		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(OPTIMIZE); \
+		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(COPTIMIZE); \
 	done
 
 	@for _source_ in $(CSOURCES_C); do \
 		printf "\033[0;32mCompile File: [\033[0;33m$$_source_\033[0m\033[0;32m]\033[0m \n"; \
-		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(OPTIMIZE); \
+		$(CCOPILER) -c $$_source_ $(CINCLUDE) $(COPTIMIZE); \
 	done
 
 finish:
