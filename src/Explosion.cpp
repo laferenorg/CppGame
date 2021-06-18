@@ -26,7 +26,8 @@ Explosion::Explosion(int x, int y, float scale, SDL_Renderer* renderer) {
 }
 
 void Explosion::update() {
-	unsigned int EXPLOSION_SPEED = 4;
+	SDL_Delay((float)16);
+	unsigned int EXPLOSION_SPEED = 16;
 
 	/* Update explosion animation */
 	counter += 1;

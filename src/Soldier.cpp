@@ -132,7 +132,8 @@ void Soldier::move(int command) {
 void Soldier::shoot(SDL_Renderer* renderer) {
 	if((shoot_cooldown == 0) && (ammo > 0)) {
 		shoot_cooldown = 20;
-		Bullet bullet(DestR.x + (0.6 * DestR.w * direction), (DestR.y + (DestR.h / 2)), direction, renderer);
+		Bullet bullet((DestR.x + (DestR.w / 2)) + (0.6 * DestR.w * direction),
+					  (DestR.y + (DestR.h / 2)), direction, renderer);
 		bullet_group.push_back(bullet);
 
 		ammo -= 1;

@@ -107,7 +107,7 @@ void SolMain::render(SDL_Renderer* renderer) {
 		}
 	}
 	if(grenade && (grenade_thrown == false) && (player->grenades > 0)) {
-		Grenade grenade_t(player->DestR.x + (0.5 * player->DestR.w * player->direction), 
+		Grenade grenade_t((player->DestR.x + (player->DestR.w / 2)) + (0.5 * player->DestR.w * player->direction), 
 						  player->DestR.y, player->direction, renderer);
 		grenade_group.push_back(grenade_t);
 

@@ -64,7 +64,7 @@ void Grenade::update(SDL_Renderer* renderer) {
     timer -= 1;
     if(timer <= 0) {
     	delts     = true;
-    	Explosion explosion(DestR.x, DestR.y, 0.5, renderer);
+    	Explosion explosion(DestR.x, (DestR.y - (DestR.h / 2)), 1, renderer);
     	explosion_group.push_back(explosion); 
     }
 }
