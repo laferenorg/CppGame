@@ -44,7 +44,7 @@ CFINISH_OUTPUT = SolMan
 all: install_deps check_obj compile compile_binary finish
 
 install_deps:
-	@if [ ! -d "libs/libSDL2.a" ]; then \
+	@if [ ! -f "libs/libSDL2.a" ]; then \
 		bash install.sh; \
 	fi
 
