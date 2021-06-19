@@ -41,7 +41,7 @@ public:
     unsigned int     frame_index    = 0;
     unsigned int     action         = 0;
 	float            update_time    = SDL_GetTicks();
-	SDL_Rect         DestR;
+	SDL_Rect  		 DestR;
 	SDL_Texture*     image;
 	float            height_sc;
 	std::vector<Bullet> bullet_group;

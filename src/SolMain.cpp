@@ -13,6 +13,7 @@
 #include <header/Grenade.hpp>
 
 Soldier* player;
+std::vector<Soldier*> enemy_group;
 int      command        = 0;
 bool     shoot          = false;
 bool     grenade        = false;
@@ -22,6 +23,9 @@ std::vector<Grenade> grenade_group;
 
 void SolMain::start(SDL_Renderer* renderer) {
 	player = new Soldier("player", 200, 200, 3, 5, 20, 5, renderer);
+	
+	Soldier* enemy = new Soldier("enemy", 400, 200, 3, 5, 20, 5, renderer);
+	enemy_group.push_back(enemy);
 }
 
 void SolMain::handleEvents(SDL_Event& event) {
@@ -41,7 +45,7 @@ void SolMain::handleEvents(SDL_Event& event) {
 				}
 				break;
 				case SDLK_q: {
-					grenade = true;
+					if(player->alive) grenade = true;
 				}
 				break;
 				case SDLK_SPACE: {
@@ -78,6 +82,10 @@ void SolMain::handleEvents(SDL_Event& event) {
 
 void SolMain::update() {
 	player->update();
+	for(auto& enemy : enemy_group) {
+		enemy->move(0);
+		enemy->update();
+	}
 	switch(command) {
 		case 0: {
 			player->update_action(0); // 1: Idle
@@ -121,4 +129,7 @@ void SolMain::render(SDL_Renderer* renderer) {
 
 	if(shoot) player->shoot(renderer);
 	player->draw(renderer);
+	for(auto& enemy : enemy_group) {
+		enemy->draw(renderer);
+	}
 }

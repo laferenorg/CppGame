@@ -11,6 +11,10 @@
 #include <header/Settings.hpp>
 #include <header/Grenade.hpp>
 #include <header/Explosion.hpp>
+#include <header/Soldier.hpp>
+
+extern Soldier* player;
+extern std::vector<Soldier*> enemy_group;
 
 Grenade::Grenade(int x, int y, int direction, SDL_Renderer* renderer) {
 	std::string path = "assets/img/icons/grenade.png";
@@ -51,7 +55,20 @@ void Grenade::update(SDL_Renderer* renderer) {
     	itsDe = !itsDe;
     	Explosion explosion(DestR.x - DestR.w, DestR.y - DestR.h, 0.5, renderer);
     	explosion_group.push_back(explosion);
-    	Boom = !Boom; 
+    	Boom = !Boom;
+
+    	/* Do damage to anyone that is nearby */
+    	if((abs((DestR.x + (DestR.w / 2)) - (player->DestR.x + (player->DestR.w / 2))) < TILE_SIZE * 2) &&
+    		(abs((DestR.y + (DestR.h / 2)) - (player->DestR.y + (player->DestR.h / 2))) < TILE_SIZE * 2)) {
+    		player->health -= 50;
+    	}
+
+    	for(auto& enemy : enemy_group) {
+    		if((abs((DestR.x + (DestR.w / 2)) - (enemy->DestR.x + (enemy->DestR.w / 2))) < TILE_SIZE * 2) &&
+	    		(abs((DestR.y + (DestR.h / 2)) - (enemy->DestR.y + (enemy->DestR.h / 2))) < TILE_SIZE * 2)) {
+	    		enemy->health -= 50;
+	    	}
+    	}
     }
 
     /* Update Section Explosion */

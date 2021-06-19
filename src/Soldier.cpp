@@ -22,7 +22,7 @@ Soldier::Soldier(std::string char_type, int x, int y, int scale,
 				 SDL_Renderer* renderer) {
 	this->char_type  = char_type;
 	DestR.x    = x;
-	DestR.y    = y;
+	DestR.y    = y - 20;
 	this->speed      = speed;
 	this->ammo       = ammo;
 	this->start_ammo = this->ammo;
@@ -92,19 +92,21 @@ void Soldier::move(int command) {
 	float dy = 0;
 
 	/* Assign movement varibales if moving left or right */
-	switch(command) {
-		case 1: {
-			dx        = -speed;
-			flip      = SDL_FLIP_HORIZONTAL;
-			direction = -1;
+	if(alive) {
+		switch(command) {
+			case 1: {
+				dx        = -speed;
+				flip      = SDL_FLIP_HORIZONTAL;
+				direction = -1;
+			}
+			break;
+			case 2: {
+				dx        = speed;
+				flip      = SDL_FLIP_NONE;
+				direction = 1;
+			}
+			break;
 		}
-		break;
-		case 2: {
-			dx        = speed;
-			flip      = SDL_FLIP_NONE;
-			direction = 1;
-		}
-		break;
 	}
 
 	/* Jump */
@@ -131,7 +133,7 @@ void Soldier::move(int command) {
 }
 
 void Soldier::shoot(SDL_Renderer* renderer) {
-	if((shoot_cooldown == 0) && (ammo > 0)) {
+	if((shoot_cooldown == 0) && (ammo > 0) && alive) {
 		shoot_cooldown = 20;
 		Bullet bullet((DestR.x + (DestR.w / 2)) + (0.6 * DestR.w * direction),
 					  (DestR.y + (DestR.h / 2)), direction, renderer);
@@ -162,7 +164,15 @@ void Soldier::update_animation() {
 
 void Soldier::update_action(unsigned int new_action) {
 	/* Check if the new action is different to the previous one */
-	if(new_action != action) {
+	if(3 != action && alive == false) {
+		action = 3;
+
+		/* Update the animation settings */
+		frame_index = 0;
+        update_time = SDL_GetTicks();
+	}
+
+	if(new_action != action && alive) {
 		action = new_action;
 
 		/* Update the animation settings */
