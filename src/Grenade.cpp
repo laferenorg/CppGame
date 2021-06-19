@@ -23,21 +23,6 @@ Grenade::Grenade(int x, int y, int direction, SDL_Renderer* renderer) {
 }
 
 void Grenade::update(SDL_Renderer* renderer) {
-	/* Update Section Explosion */
-	{
-		std::vector<Explosion> explosion_group_t;
-		for(int i = 0; i < ((int)explosion_group.size()); i++) {
-			if(!explosion_group[i].delts) {
-				explosion_group[i].update();
-				explosion_group_t.push_back(explosion_group[i]);
-			}
-		}
-		explosion_group.clear();
-		for(int i = 0; i < ((int)explosion_group_t.size()); i++) {
-			explosion_group.push_back(explosion_group_t[i]);
-		}
-	}
-
 	/* Update Section Grenade */
 	vel_y += GRAVITY;
 	float dx = direction * speed;
@@ -62,11 +47,28 @@ void Grenade::update(SDL_Renderer* renderer) {
 
 	/* Countdown timer */
     timer -= 1;
-    if(timer <= 0) {
-    	delts     = true;
-    	Explosion explosion(DestR.x, (DestR.y - (DestR.h / 2)), 1, renderer);
-    	explosion_group.push_back(explosion); 
+    if(timer <= 0 && !Boom) {
+    	itsDe = !itsDe;
+    	Explosion explosion(DestR.x - DestR.w, DestR.y - DestR.h, 0.5, renderer);
+    	explosion_group.push_back(explosion);
+    	Boom = !Boom; 
     }
+
+    /* Update Section Explosion */
+	{
+		std::vector<Explosion> explosion_group_t;
+		for(int i = 0; i < ((int)explosion_group.size()); i++) {
+			if(explosion_group[i].delts == false) {
+				explosion_group[i].update(delts);
+				explosion_group_t.push_back(explosion_group[i]);
+			}
+		}
+
+		explosion_group.clear();
+		for(int i = 0; i < ((int)explosion_group_t.size()); i++) {
+			explosion_group.push_back(explosion_group_t[i]);
+		}
+	}
 }
 
 void Grenade::draw(SDL_Renderer* renderer) {
@@ -74,5 +76,7 @@ void Grenade::draw(SDL_Renderer* renderer) {
 		explosion.draw(renderer);
 	}
 
-	SDL_RenderCopy(renderer, image, NULL, &DestR);
+	if(!itsDe) {
+		SDL_RenderCopy(renderer, image, NULL, &DestR);
+	}
 }

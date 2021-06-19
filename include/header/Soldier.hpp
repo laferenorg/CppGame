@@ -14,6 +14,13 @@
 #include <header/Grenade.hpp>
 #include <header/Settings.hpp>
 
+struct _animation_sprite_ {
+	SDL_Texture* image;
+	SDL_Rect     SrcR;
+};
+
+typedef struct _animation_sprite_ AnimtionSprite;
+
 class Soldier {
 public:
 	bool             alive          = true;
@@ -30,14 +37,15 @@ public:
 	bool             in_air         = false;
 	int              direction      = 1;
     SDL_RendererFlip flip           = SDL_FLIP_NONE;
-    std::vector<std::vector<SDL_Texture*>> animation_list;
+    std::vector<std::vector<AnimtionSprite>> animation_list;
     unsigned int     frame_index    = 0;
     unsigned int     action         = 0;
 	float            update_time    = SDL_GetTicks();
-	SDL_Rect         SrcR, DestR;
+	SDL_Rect         DestR;
 	SDL_Texture*     image;
 	float            height_sc;
 	std::vector<Bullet> bullet_group;
+	float            scales;
 public:
 	Soldier(std::string char_type, int x, int y, int scale,
 			float speed, int ammo, int grenades,

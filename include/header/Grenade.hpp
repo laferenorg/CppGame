@@ -15,6 +15,7 @@
 class Grenade {
 public:
 	bool         delts = false;
+    bool         itsDe = false;
 	int          timer = 100;
     float        vel_y = -11;
     float        speed = 7;
@@ -23,6 +24,7 @@ public:
     int          direction;
     float        height_sc;
     std::vector<Explosion> explosion_group;
+    bool         Boom = false;
 public:
 	Grenade(int x, int y, int direction, SDL_Renderer* renderer);
 	void update(SDL_Renderer* renderer);

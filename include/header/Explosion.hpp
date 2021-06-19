@@ -18,7 +18,7 @@ public:
     int          counter     = 0;
 public:
 	Explosion(int x, int y, float scale, SDL_Renderer* renderer);
-	void update();
+	void update(bool& replace);
 	void draw(SDL_Renderer* renderer);
 };
 

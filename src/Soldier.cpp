@@ -21,19 +21,18 @@ Soldier::Soldier(std::string char_type, int x, int y, int scale,
 				 float speed, int ammo, int grenades,
 				 SDL_Renderer* renderer) {
 	this->char_type  = char_type;
-	SrcR.x     = x;
-	SrcR.y     = y;
-	DestR.x    = 0;
-	DestR.y    = 0;
+	DestR.x    = x;
+	DestR.y    = y;
 	this->speed      = speed;
 	this->ammo       = ammo;
 	this->start_ammo = this->ammo;
 	this->grenades   = grenades;
+	this->scales     = scale;
 	
 	/* Load all images for the players */
     std::array<std::string, 4> animation_types = { "Idle", "Run", "Jump", "Death" };
     for(unsigned int animation = 0; animation < ((int)animation_types.size()); animation++) {
-    	std::vector<SDL_Texture*> temp_list;
+    	std::vector<AnimtionSprite> temp_list;
     	unsigned int num_of_frames = 0;
 
 		{
@@ -48,15 +47,17 @@ Soldier::Soldier(std::string char_type, int x, int y, int scale,
 			std::string path_image = "assets/img/" + char_type + "/" + 
 									 animation_types[animation] + "/" + std::to_string(i) +
 									 ".png";
-			SrcR.w = Load::get_width(path_image);
-			SrcR.h = Load::get_height(path_image);
-			temp_list.push_back(Load::LoadTexture(path_image, renderer));
+			AnimtionSprite animation_sprite_t;
+			animation_sprite_t.SrcR.w = Load::get_width(path_image);
+			animation_sprite_t.SrcR.h = Load::get_height(path_image);
+			animation_sprite_t.image  = Load::LoadTexture(path_image, renderer);
+			temp_list.push_back(animation_sprite_t);
 		}
 		animation_list.push_back(temp_list);
     }
-    DestR.w = SrcR.w * scale;
-    DestR.h = SrcR.h * scale;
-    image = animation_list[action][frame_index];
+    DestR.w   = animation_list[action][frame_index].SrcR.w * scale;
+    DestR.h   = animation_list[action][frame_index].SrcR.h * scale;
+    image     = animation_list[action][frame_index].image;
     height_sc = DestR.h;
 }
 
@@ -143,7 +144,7 @@ void Soldier::shoot(SDL_Renderer* renderer) {
 void Soldier::update_animation() {
 	/* Update animation */
 	float ANIMATION_COOLDOWN = 100;
-	image = animation_list[action][frame_index];
+	image = animation_list[action][frame_index].image;
 
 	if(SDL_GetTicks() - update_time > ANIMATION_COOLDOWN) {
 		update_time = SDL_GetTicks();
@@ -184,5 +185,8 @@ void Soldier::draw(SDL_Renderer* renderer) {
 	for(int i = 0; i < ((int)bullet_group.size()); i++) {
 		if(!bullet_group[i].delts) bullet_group[i].draw(renderer);
 	}
+
+	DestR.w = animation_list[action][frame_index].SrcR.w * scales;
+	DestR.w = animation_list[action][frame_index].SrcR.w * scales;
 	SDL_RenderCopyEx(renderer, image, NULL, &DestR, 0, NULL, flip);
 }

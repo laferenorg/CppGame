@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <vector>
 
 /* SDL2 */
 #include <SDL2/SDL.h>
@@ -25,10 +26,8 @@ Explosion::Explosion(int x, int y, float scale, SDL_Renderer* renderer) {
 	image = images[frame_index];
 }
 
-void Explosion::update() {
-	SDL_Delay((float)16);
-	unsigned int EXPLOSION_SPEED = 16;
-
+void Explosion::update(bool& replace) {
+	unsigned int EXPLOSION_SPEED = 4;
 	/* Update explosion animation */
 	counter += 1;
 	if(counter >= EXPLOSION_SPEED) {
@@ -37,7 +36,8 @@ void Explosion::update() {
         
         /* If the animation is complete then delete the explosion */
         if(frame_index >= ((int)images.size())) {
-            delts = true;
+            delts   = true;
+            replace = true;
         } else {
         	image = images[frame_index];
         }
