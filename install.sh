@@ -7,7 +7,7 @@ if [[ $? -eq 0 ]]; then
 			echo "Architecture: x64"
 			wget https://github.com/laferenorg/CppGame/releases/download/v1.1/libSDL2.a
 			wget https://github.com/laferenorg/CppGame/releases/download/v1.1/libSDL2_image.a
-			https://github.com/laferenorg/CppGame/releases/download/v1.1/SDL2.zip
+			wget https://github.com/laferenorg/CppGame/releases/download/v1.1/SDL2.zip
 			unzip SDL2.zip
 			mv SDL2 include/
 			mv libSDL2.a libs/
@@ -16,7 +16,7 @@ if [[ $? -eq 0 ]]; then
 			echo "Architecture: x32"
 			wget https://github.com/laferenorg/CppGame/releases/download/v1.0/libSDL2.a
 			wget https://github.com/laferenorg/CppGame/releases/download/v1.0/libSDL2_image.a
-			https://github.com/laferenorg/CppGame/releases/download/v1.0/SDL2.zip
+			wget https://github.com/laferenorg/CppGame/releases/download/v1.0/SDL2.zip
 			unzip SDL2.zip
 			mv SDL2 include/
 			mv libSDL2.a libs/
