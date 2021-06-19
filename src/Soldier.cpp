@@ -4,7 +4,11 @@
 #include <vector>
 #include <array>
 #include <fstream>
-#include <experimental/filesystem>
+#ifdef _WIN32
+	#include <filesystem>
+#else
+	#include <experimental/filesystem>
+#endif
 #include <cstring>
 
 /* SDL2 */
@@ -37,10 +41,17 @@ Soldier::Soldier(std::string char_type, int x, int y, int scale,
 
 		{
 			std::string path_location = "assets/img/" + char_type + "/" + animation_types[animation];
-			std::experimental::filesystem::path path(path_location.c_str());
-			for (auto& count : std::experimental::filesystem::directory_iterator(path)) {
-				num_of_frames += 1;
-			}
+			#ifdef _WIN32
+				std::filesystem::path path(path_location.c_str());
+				for (auto& count : std::filesystem::directory_iterator(path)) {
+					num_of_frames += 1;
+				}
+			#else
+				std::experimental::filesystem::path path(path_location.c_str());
+				for (auto& count : std::experimental::filesystem::directory_iterator(path)) {
+					num_of_frames += 1;
+				}
+			#endif
 		}
 
 		for(int i = 0; i < num_of_frames; i++) {
